@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Помощник & Донат</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121214;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: #1a1a1e;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        h1 { text-align: center; color: #00ff88; }
+        .chat-box {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #333;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background: #111;
+        }
+        .message { margin: 10px 0; padding: 8px 12px; border-radius: 6px; }
+        .user-msg { background: #007acc; text-align: right; margin-left: 20%; }
+        .ai-msg { background: #333; text-align: left; margin-right: 20%; }
+        .input-area { display: flex; gap: 10px; }
+        input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background: #222;
+            color: #fff;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background: #00ff88;
+            color: #000;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover { background: #00cc6e; }
+        
+        /* Секция доната */
+        .donate-section {
+            margin-top: 25px;
+            text-align: center;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+        .donate-tiers {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            gap: 10px;
+        }
+        .tier-card {
+            background: #252529;
+            padding: 15px;
+            border-radius: 8px;
+            width: 30%;
+            border: 1px solid #444;
+        }
+        .tier-card h3 { margin: 0 0 10px 0; color: #00ff88; }
+        .price { font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>AI Собеседник</h1>
+    <div class="chat-box" id="chatBox">
+        <div class="message ai-msg">Привет! У тебя есть 5 бесплатных запросов на сегодня. Задай мне вопрос!</div>
+    </div>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Введите сообщение...">
+        <button onclick="sendMessage()">Отправить</button>
+    </div>
+
+    <div class="donate-section">
+        <h2>Выгодный Донат (Поддержка проекта)</h2>
+        <p>Бесплатные лимиты закончились или хочешь стать Pro? Выбирай честный тариф:</p>
+        <div class="donate-tiers">
+            <div class="tier-card">
+                <h3>+50 Запросов</h3>
+                <div class="price">~ $0.50</div>
+                <button onclick="pay(0.50)">Купить</button>
+            </div>
+            <div class="tier-card">
+                <h3>Быстрый AI Pro</h3>
+                <div class="price">~ $2.50 / мес</div>
+                <button onclick="pay(2.50)">Купить</button>
+            </div>
+            <div class="tier-card">
+                <h3>Безлимит</h3>
+                <div class="price">~ $5.00 / мес</div>
+                <button onclick="pay(5.00)">Купить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let freeRequests = 5;
+
+    function sendMessage() {
+        const input = document.getElementById('userInput');
+        const chatBox = document.getElementById('chatBox');
+        
+        if (input.value.trim() === "") return;
+        if (freeRequests <= 0) {
+            alert("Бесплатные запросы закончились! Пожалуйста, поддержите проект донатом ниже.");
+            return;
+        }
+
+        // Отображаем сообщение пользователя
+        chatBox.innerHTML += `<div class="message user-msg">${input.value}</div>`;
+        
+        // Уменьшаем счетчик лимита
+        freeRequests--;
+
+        // Имитация ответа ИИ (в реальности здесь будет fetch запрос к вашему бэкенду)
+        setTimeout(() => {
+            chatBox.innerHTML += `<div class="message ai-msg">Это демонстрационный ответ ИИ. (Осталось бесплатных запросов: ${freeRequests})</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 1000);
+
+        input.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function pay(amount) {
+        // Логика перенаправления на платежную систему
+        alert(`Перенаправление на платежную систему для оплаты $${amount}. Спасибо за поддержку!`);
+    }
+</script>
+
+</body>
+  </html>
